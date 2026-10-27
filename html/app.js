@@ -93,30 +93,37 @@ btnToggleDetails.addEventListener("click", () => {
     toggleLabel.textContent = isOpen ? "Hide details" : "Show more details";
 });
 
-// Copy official tool URL
+// Copy official tool URL using standard textarea + execCommand pattern (avoids CEF Permissions Policy restrictions)
 btnCopyLink.addEventListener("click", () => {
     const url = officialUrlInput.value;
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(url).then(() => {
-            showToast("Copied link to clipboard!");
-        }).catch(() => {
-            fallbackCopy();
-        });
+    const textarea = document.createElement("textarea");
+    textarea.value = url;
+    textarea.style.position = "fixed";
+    textarea.style.top = "0";
+    textarea.style.left = "0";
+    textarea.style.opacity = "0";
+    textarea.setAttribute("readonly", "");
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    let success = false;
+    try {
+        success = document.execCommand("copy");
+    } catch {
+        success = false;
+    }
+    document.body.removeChild(textarea);
+
+    if (success) {
+        showToast("Copied link to clipboard!");
     } else {
-        fallbackCopy();
+        // Fallback: select visible input text so user can press Ctrl+C
+        officialUrlInput.focus();
+        officialUrlInput.select();
+        showToast("Press Ctrl+C to copy link");
     }
 });
-
-function fallbackCopy() {
-    officialUrlInput.select();
-    officialUrlInput.setSelectionRange(0, 99999);
-    try {
-        document.execCommand("copy");
-        showToast("Copied link to clipboard!");
-    } catch {
-        showToast("Please copy the link manually.");
-    }
-}
 
 // Action: Migrate
 btnMigrate.addEventListener("click", () => {
