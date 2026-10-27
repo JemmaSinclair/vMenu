@@ -17,10 +17,52 @@ const INT_SETTINGS = new Set([
     "settings_clothingAnimationType",
     "settings_miscLastTimeCycleModifierIndex",
     "settings_miscLastTimeCycleModifierStrength",
+    "settings_vehicleDefaultRadio",
+]);
+
+const FLOAT_SETTINGS = new Set([
+    "settings_voiceChatProximity",
 ]);
 
 let cachedLegacyData = null;
 let cachedLookups = null;
+
+function safeGetKvp(key) {
+    if (INT_SETTINGS.has(key)) {
+        try {
+            return GetResourceKvpInt(key);
+        } catch (e) {
+            return null;
+        }
+    }
+    if (FLOAT_SETTINGS.has(key)) {
+        try {
+            return GetResourceKvpFloat(key);
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // Try string first
+    try {
+        const strVal = GetResourceKvpString(key);
+        if (strVal !== null && strVal !== undefined) {
+            return strVal;
+        }
+    } catch (err) {
+        // "bad cast" native error if it was stored as int or float
+        try {
+            return GetResourceKvpInt(key);
+        } catch (e1) {
+            try {
+                return GetResourceKvpFloat(key);
+            } catch (e2) {
+                return null;
+            }
+        }
+    }
+    return null;
+}
 
 function scanLegacyKvps() {
     const data = new Map();
@@ -32,13 +74,9 @@ function scanLegacyKvps() {
         try {
             let key;
             while ((key = FindKvp(handle))) {
-                if (INT_SETTINGS.has(key)) {
-                    data.set(key, GetResourceKvpInt(key));
-                } else {
-                    const strVal = GetResourceKvpString(key);
-                    if (strVal !== null && strVal !== undefined) {
-                        data.set(key, strVal);
-                    }
+                const val = safeGetKvp(key);
+                if (val !== null && val !== undefined) {
+                    data.set(key, val);
                 }
             }
         } finally {
