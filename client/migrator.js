@@ -117,22 +117,73 @@ function getExistingEnhancedKeys() {
 
 let isModalOpen = false;
 let focusInterval = null;
+let controlDisableTick = null;
 
 function setModalOpenState(open) {
     isModalOpen = open;
     if (open) {
+        if (typeof SetNuiFocusKeepInput === "function") {
+            SetNuiFocusKeepInput(false);
+        }
+        if (typeof SetNuiZindex === "function") {
+            SetNuiZindex(100000);
+        }
         SetNuiFocus(true, true);
+
+        // Periodically enforce NUI focus and maximum CEF layer
         if (!focusInterval) {
             focusInterval = setInterval(() => {
                 if (isModalOpen) {
+                    if (typeof SetNuiFocusKeepInput === "function") {
+                        SetNuiFocusKeepInput(false);
+                    }
+                    if (typeof SetNuiZindex === "function") {
+                        SetNuiZindex(100000);
+                    }
                     SetNuiFocus(true, true);
                 }
-            }, 1000);
+            }, 500);
+        }
+
+        // Frame tick loop to disable camera and gameplay controls
+        // If another resource keeps game inputs enabled or causes camera panning, this locks it down
+        if (controlDisableTick === null) {
+            controlDisableTick = setTick(async () => {
+                if (!isModalOpen) {
+                    if (controlDisableTick !== null) {
+                        clearTick(controlDisableTick);
+                        controlDisableTick = null;
+                    }
+                    return;
+                }
+                // Camera look controls (stops mouse from rotating game camera)
+                DisableControlAction(0, 1, true); // LookLeftRight
+                DisableControlAction(0, 2, true); // LookUpDown
+                DisableControlAction(0, 3, true);
+                DisableControlAction(0, 4, true);
+                DisableControlAction(0, 5, true);
+                DisableControlAction(0, 6, true);
+
+                // Attack / aim controls
+                DisableControlAction(0, 24, true); // Attack
+                DisableControlAction(0, 25, true); // Aim
+                DisableControlAction(0, 140, true);
+                DisableControlAction(0, 141, true);
+                DisableControlAction(0, 142, true);
+                DisableControlAction(0, 257, true);
+            });
         }
     } else {
         if (focusInterval) {
             clearInterval(focusInterval);
             focusInterval = null;
+        }
+        if (controlDisableTick !== null) {
+            clearTick(controlDisableTick);
+            controlDisableTick = null;
+        }
+        if (typeof SetNuiFocusKeepInput === "function") {
+            SetNuiFocusKeepInput(false);
         }
         SetNuiFocus(false, false);
     }
