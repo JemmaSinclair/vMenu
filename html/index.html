@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vMenu Migrator</title>
+    <link rel="stylesheet" href="themes.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-default">
+    <div id="migrator-overlay">
+        <div class="modal-container">
+            <header class="modal-header">
+                <div class="header-title-wrap">
+                    <span class="header-tag">vMenu.Enhanced Migration</span>
+                    <h1 class="header-title">Legacy Saved Data Detected</h1>
+                </div>
+            </header>
+
+            <main class="modal-body">
+                <p class="intro-text">
+                    Saved data from a previous version of vMenu was found on your client. You can automatically migrate your vehicles, characters, loadouts, and preferences into vMenu.Enhanced now.
+                </p>
+
+                <!-- Item Count Badges -->
+                <div class="badges-grid">
+                    <div class="badge-card">
+                        <span class="badge-count" id="count-vehicles">0</span>
+                        <span class="badge-label">Vehicles</span>
+                    </div>
+                    <div class="badge-card">
+                        <span class="badge-count" id="count-characters">0</span>
+                        <span class="badge-label">Characters</span>
+                    </div>
+                    <div class="badge-card">
+                        <span class="badge-count" id="count-peds">0</span>
+                        <span class="badge-label">Saved Peds</span>
+                    </div>
+                    <div class="badge-card">
+                        <span class="badge-count" id="count-loadouts">0</span>
+                        <span class="badge-label">Loadouts</span>
+                    </div>
+                    <div class="badge-card">
+                        <span class="badge-count" id="count-settings">0</span>
+                        <span class="badge-label">Settings</span>
+                    </div>
+                </div>
+
+                <!-- Prominent Warnings & Guarantees -->
+                <div class="notices-group">
+                    <div class="notice-card safe">
+                        <span class="notice-icon">&#10004;</span>
+                        <div>
+                            <strong>Safe & Non-Destructive:</strong> Your existing vMenu.Enhanced saves will <em>never</em> be replaced or overwritten. Any legacy saves that share a name with existing ones will be safely renamed.
+                        </div>
+                    </div>
+                    <div class="notice-card warn">
+                        <span class="notice-icon">&#9888;</span>
+                        <div>
+                            <strong>One-Way Transfer:</strong> Migrated data is stored exclusively in vMenu.Enhanced. Changes and new saves will <em>not</em> sync back if you later connect to servers running the old legacy vMenu.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expandable Technical Details Drawer -->
+                <div class="details-drawer" id="details-drawer">
+                    <button type="button" class="details-toggle" id="btn-toggle-details">
+                        <span>Show more details</span>
+                        <span class="toggle-arrow">&#9654;</span>
+                    </button>
+                    <div class="details-content">
+                        <div class="details-section">
+                            <h4 class="details-subtitle">Where Your Data Goes & Categories</h4>
+                            <p>
+                                Saved items with existing custom categories keep their category names. Uncategorized items are automatically filed under an <strong>"Imported from old vMenu"</strong> category so they are easy to find and organize.
+                            </p>
+                        </div>
+                        <div class="details-section">
+                            <h4 class="details-subtitle">Name Collision Safety</h4>
+                            <p>
+                                If a saved vehicle, character, ped, or loadout has the exact same name as an existing save in vMenu.Enhanced, the incoming item will be appended with <strong>(Legacy)</strong> (e.g. <em>Adder (Legacy)</em>) so no existing data is lost.
+                            </p>
+                            <div id="renamed-list-container" style="display: none; margin-top: 0.4rem;">
+                                <strong>Items being renamed:</strong>
+                                <ul class="details-list" id="renamed-list"></ul>
+                            </div>
+                        </div>
+                        <div class="details-section">
+                            <h4 class="details-subtitle">Differences & Format Adjustments</h4>
+                            <ul class="details-list">
+                                <li><strong>DLC Clothing:</strong> Multiplayer clothing drawables are matched by numerical ID. Due to GTA V game build updates, some cloth indices may shift. Re-saving your character once in-game locks them in.</li>
+                                <li><strong>Normal Ped Multiplayer Saves:</strong> Multiplayer peds previously saved under "Saved Peds" rather than "Custom Characters" lack head blend data and will appear with default faces.</li>
+                                <li><strong>Custom Weapon Attachments:</strong> Weapon components not installed on this server cannot be loaded and will be omitted.</li>
+                                <li><strong>Obsolete Settings:</strong> Retired legacy settings with no equivalent in vMenu.Enhanced are omitted.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Official Tool Link Box -->
+                <div class="official-tool-box">
+                    <span class="official-tool-label">Prefer to inspect or migrate your files manually using the officially supported method?</span>
+                    <div class="link-row">
+                        <input type="text" class="link-input" id="official-url" readonly value="https://docs.vespura.com/vmenu/enhanced/old-vmenu-import/">
+                        <button type="button" class="btn-copy" id="btn-copy-link">Copy Link</button>
+                    </div>
+                </div>
+
+                <!-- Unofficial Disclaimer -->
+                <div class="disclaimer-card">
+                    <strong>Notice:</strong> This automated stand-in migrator is an independent, unofficial community tool and is verified to be <strong>not supported</strong> by the author of vMenu / vMenu.Enhanced (Tom Grobbe / Vespura).
+                </div>
+            </main>
+
+            <footer class="modal-footer">
+                <button type="button" class="btn-decline" id="btn-decline">Decline Migration</button>
+                <div class="action-buttons">
+                    <button type="button" class="btn-secondary" id="btn-remind">Remind Me Later</button>
+                    <button type="button" class="btn-primary" id="btn-migrate">Migrate My Data</button>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <div id="toast">Copied link to clipboard!</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+

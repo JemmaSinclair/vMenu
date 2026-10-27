@@ -1,0 +1,122 @@
+/* Themes for vMenu Migrator matching vMenu.Enhanced skins */
+
+body.theme-default {
+    --accent: #3b8bf5;
+    --accent-glow: rgba(59, 139, 245, 0.25);
+    --panel: rgba(18, 20, 24, 0.96);
+    --panel-head: linear-gradient(rgba(59, 139, 245, 0.16), rgba(59, 139, 245, 0.05)), rgba(18, 20, 24, 0.98);
+    --head-border: rgba(59, 139, 245, 0.35);
+    --edge: rgba(255, 255, 255, 0.09);
+    --row: rgba(255, 255, 255, 0.04);
+    --row-hover: rgba(59, 139, 245, 0.12);
+    --text: #f2f2f2;
+    --muted: rgba(242, 242, 242, 0.6);
+    --badge-bg: rgba(59, 139, 245, 0.18);
+    --badge-border: rgba(59, 139, 245, 0.4);
+    --badge-text: #96c4ff;
+    --btn-primary-bg: #3b8bf5;
+    --btn-primary-hover: #4d94f7;
+    --btn-primary-text: #ffffff;
+}
+
+body.theme-dark {
+    --accent: #8b99a8;
+    --accent-glow: rgba(139, 153, 168, 0.25);
+    --panel: rgba(13, 14, 16, 0.97);
+    --panel-head: linear-gradient(rgba(139, 153, 168, 0.15), rgba(139, 153, 168, 0.05)), rgba(13, 14, 16, 0.98);
+    --head-border: rgba(139, 153, 168, 0.3);
+    --edge: rgba(255, 255, 255, 0.08);
+    --row: rgba(255, 255, 255, 0.04);
+    --row-hover: rgba(139, 153, 168, 0.12);
+    --text: #e6e8ec;
+    --muted: rgba(230, 232, 236, 0.55);
+    --badge-bg: rgba(139, 153, 168, 0.2);
+    --badge-border: rgba(139, 153, 168, 0.4);
+    --badge-text: #c2cbd4;
+    --btn-primary-bg: #4a5563;
+    --btn-primary-hover: #5d6a7a;
+    --btn-primary-text: #ffffff;
+}
+
+body.theme-gold,
+body.theme-vmenugold,
+body.theme-vmenu-gold {
+    --accent: #d4b674;
+    --accent-glow: rgba(212, 182, 116, 0.25);
+    --panel: rgba(18, 16, 12, 0.96);
+    --panel-head: linear-gradient(rgba(212, 182, 116, 0.18), rgba(212, 182, 116, 0.06)), rgba(18, 16, 12, 0.98);
+    --head-border: rgba(212, 182, 116, 0.35);
+    --edge: rgba(212, 182, 116, 0.15);
+    --row: rgba(255, 255, 255, 0.04);
+    --row-hover: rgba(212, 182, 116, 0.12);
+    --text: #f5f3ee;
+    --muted: rgba(245, 243, 238, 0.6);
+    --badge-bg: rgba(212, 182, 116, 0.18);
+    --badge-border: rgba(212, 182, 116, 0.45);
+    --badge-text: #ebd5a0;
+    --btn-primary-bg: #b8974a;
+    --btn-primary-hover: #c9a85b;
+    --btn-primary-text: #161208;
+}
+
+body.theme-green,
+body.theme-vmenugreen,
+body.theme-vmenu-green {
+    --accent: #6ecc8a;
+    --accent-glow: rgba(110, 204, 138, 0.25);
+    --panel: rgba(14, 19, 15, 0.96);
+    --panel-head: linear-gradient(rgba(110, 204, 138, 0.18), rgba(110, 204, 138, 0.06)), rgba(14, 19, 15, 0.98);
+    --head-border: rgba(110, 204, 138, 0.35);
+    --edge: rgba(110, 204, 138, 0.15);
+    --row: rgba(255, 255, 255, 0.04);
+    --row-hover: rgba(110, 204, 138, 0.12);
+    --text: #f0f5f1;
+    --muted: rgba(240, 245, 241, 0.6);
+    --badge-bg: rgba(110, 204, 138, 0.18);
+    --badge-border: rgba(110, 204, 138, 0.45);
+    --badge-text: #96e0ab;
+    --btn-primary-bg: #4ea869;
+    --btn-primary-hover: #5ebc7b;
+    --btn-primary-text: #0b170e;
+}
+
+body.theme-red,
+body.theme-vmenured,
+body.theme-vmenu-red {
+    --accent: #e05e5e;
+    --accent-glow: rgba(224, 94, 94, 0.25);
+    --panel: rgba(20, 14, 14, 0.96);
+    --panel-head: linear-gradient(rgba(224, 94, 94, 0.18), rgba(224, 94, 94, 0.06)), rgba(20, 14, 14, 0.98);
+    --head-border: rgba(224, 94, 94, 0.35);
+    --edge: rgba(224, 94, 94, 0.15);
+    --row: rgba(255, 255, 255, 0.04);
+    --row-hover: rgba(224, 94, 94, 0.12);
+    --text: #f6efef;
+    --muted: rgba(246, 239, 239, 0.6);
+    --badge-bg: rgba(224, 94, 94, 0.18);
+    --badge-border: rgba(224, 94, 94, 0.45);
+    --badge-text: #f09595;
+    --btn-primary-bg: #bd3a3a;
+    --btn-primary-hover: #d14747;
+    --btn-primary-text: #ffffff;
+}
+
+body.theme-cartoon {
+    --accent: #ffd200;
+    --accent-glow: rgba(255, 210, 0, 0.35);
+    --panel: #1e1e24;
+    --panel-head: #282832;
+    --head-border: #ffd200;
+    --edge: #ffd200;
+    --row: #2d2d38;
+    --row-hover: #383846;
+    --text: #ffffff;
+    --muted: #bbbbcc;
+    --badge-bg: #ffd200;
+    --badge-border: #ffffff;
+    --badge-text: #000000;
+    --btn-primary-bg: #ffd200;
+    --btn-primary-hover: #ffe040;
+    --btn-primary-text: #000000;
+}
+
