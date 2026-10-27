@@ -263,10 +263,12 @@ RegisterCommand("vmenu_clear_enhanced", () => {
 
 // Manual command to re-open or force check: /vmenu_migrate
 // Usage:
-//   /vmenu_migrate        -> Re-opens the migration modal if viable data exists
-//   /vmenu_migrate reset  -> Clears vMenu.Enhanced data, resets migration status, and re-runs check
+//   /vmenu_migrate              -> Re-opens the migration modal even if previously declined or migrated
+//   /vmenu_migrate reset        -> Clears vMenu.Enhanced data, clears migration status, and re-runs check
+//   /vmenu_migrate reset_status -> Only clears the declined/migrated status (leaves Enhanced data intact)
 RegisterCommand("vmenu_migrate", (source, args) => {
-    if (args[0] === "reset") {
+    const sub = (args[0] || "").toLowerCase();
+    if (sub === "reset") {
         try {
             if (exports["vMenu.Enhanced"] && typeof exports["vMenu.Enhanced"].ClearAllData === "function") {
                 const count = exports["vMenu.Enhanced"].ClearAllData();
@@ -276,7 +278,10 @@ RegisterCommand("vmenu_migrate", (source, args) => {
             console.warn("[vMenu Migrator] Could not invoke ClearAllData export:", e);
         }
         DeleteResourceKvp("vmenu_migration_status");
-        console.log("^2[vMenu Migrator] Migration status reset. Running check...^7");
+        console.log("^2[vMenu Migrator] Migration status and Enhanced data reset. Opening modal...^7");
+    } else if (sub === "reset_status" || sub === "undecline") {
+        DeleteResourceKvp("vmenu_migration_status");
+        console.log("^2[vMenu Migrator] Migration status cleared (decline removed). Opening modal...^7");
     }
     promptMigration(true);
 }, false);
