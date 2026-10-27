@@ -465,3 +465,24 @@ button {
     transform: translateX(-50%) translateY(0);
 }
 
+/* Fallback Hardware/Software Cursor */
+.nui-cursor {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1.4rem;
+    height: 1.4rem;
+    pointer-events: none;
+    z-index: 2147483647;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><polygon points="3,2 3,20 8.5,15.5 12.5,23 15.5,21.5 11.5,14 18,14" fill="%23ffffff" stroke="%231a1a1a" stroke-width="1.6" stroke-linejoin="round"/></svg>');
+    will-change: transform;
+}
+
+#migrator-overlay.shown ~ .nui-cursor,
+.nui-cursor.active {
+    display: block;
+}
+

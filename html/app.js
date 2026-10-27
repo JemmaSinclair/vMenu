@@ -22,8 +22,16 @@ const toast = document.getElementById("toast");
 const btnMigrate = document.getElementById("btn-migrate");
 const btnRemind = document.getElementById("btn-remind");
 const btnDecline = document.getElementById("btn-decline");
+const nuiCursor = document.getElementById("nui-cursor");
 
 let isBusy = false;
+
+// Custom hardware-independent cursor tracker
+window.addEventListener("mousemove", (e) => {
+    if (overlay.classList.contains("shown") && nuiCursor) {
+        nuiCursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+    }
+});
 
 function showToast(message) {
     toast.textContent = message;
