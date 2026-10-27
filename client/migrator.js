@@ -115,6 +115,29 @@ function getExistingEnhancedKeys() {
     return new Set();
 }
 
+let isModalOpen = false;
+let focusInterval = null;
+
+function setModalOpenState(open) {
+    isModalOpen = open;
+    if (open) {
+        SetNuiFocus(true, true);
+        if (!focusInterval) {
+            focusInterval = setInterval(() => {
+                if (isModalOpen) {
+                    SetNuiFocus(true, true);
+                }
+            }, 1000);
+        }
+    } else {
+        if (focusInterval) {
+            clearInterval(focusInterval);
+            focusInterval = null;
+        }
+        SetNuiFocus(false, false);
+    }
+}
+
 async function promptMigration(force = false) {
     const status = GetResourceKvpString("vmenu_migration_status");
     if (!force && (status === "migrated" || status === "declined")) {
@@ -146,7 +169,7 @@ async function promptMigration(force = false) {
 
     const theme = GetConvar("vMenu.Enhanced.MenuAppearance.Skin", "default");
 
-    SetNuiFocus(true, true);
+    setModalOpenState(true);
     SendNuiMessage(JSON.stringify({
         type: "OPEN_MODAL",
         theme: theme.toLowerCase(),
@@ -188,12 +211,12 @@ on("__cfx_nui:migrate", (data, cb) => {
         }
 
         SetResourceKvp("vmenu_migration_status", "migrated");
-        SetNuiFocus(false, false);
+        setModalOpenState(false);
 
         cb({ ok: true, result });
     } catch (error) {
         console.error("[vMenu Migrator] Migration failed:", error);
-        SetNuiFocus(false, false);
+        setModalOpenState(false);
         cb({ ok: false, error: String(error) });
     }
 });
@@ -201,7 +224,7 @@ on("__cfx_nui:migrate", (data, cb) => {
 // NUI Callback: Player clicks "Remind Me Later"
 RegisterNuiCallbackType("remindLater");
 on("__cfx_nui:remindLater", (data, cb) => {
-    SetNuiFocus(false, false);
+    setModalOpenState(false);
     cb({ ok: true });
 });
 
@@ -209,8 +232,14 @@ on("__cfx_nui:remindLater", (data, cb) => {
 RegisterNuiCallbackType("decline");
 on("__cfx_nui:decline", (data, cb) => {
     SetResourceKvp("vmenu_migration_status", "declined");
-    SetNuiFocus(false, false);
+    setModalOpenState(false);
     cb({ ok: true });
+});
+
+on("onResourceStop", (resourceName) => {
+    if (GetCurrentResourceName() === resourceName) {
+        setModalOpenState(false);
+    }
 });
 
 // Automatic check on client load (delayed briefly to let vMenu.Enhanced start and load convars)
