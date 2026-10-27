@@ -65,6 +65,32 @@ public static class DataTransfer
         Report(result, replacing);
     }
 
+    public static bool ImportBundleRaw(string bundleJson, out int appliedCount, out string? errorMessage)
+    {
+        appliedCount = 0;
+        if (string.IsNullOrEmpty(bundleJson) || Read(bundleJson) is not { } bundle)
+        {
+            errorMessage = "Invalid or unreadable transfer bundle.";
+            return false;
+        }
+
+        try
+        {
+            var result = KvpTransfer.Import(bundle, KvpImportMode.Merge);
+            Reapply();
+            Report(result, replacing: false);
+            appliedCount = result.Applied;
+            errorMessage = null;
+            return true;
+        }
+        catch (Exception exception)
+        {
+            Log.Error($"[Migration] Direct import failed: {exception}");
+            errorMessage = exception.Message;
+            return false;
+        }
+    }
+
     // Null when the code is unusable. The player has already been told.
     private static KvpBundle? Read(string pasted)
     {

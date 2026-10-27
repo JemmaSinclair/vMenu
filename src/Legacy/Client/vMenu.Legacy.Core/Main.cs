@@ -106,6 +106,15 @@ public sealed class Main : BaseScript
 
         ServerActions.RegisterEventHandlers();
 
+        try
+        {
+            vMenu.Enhanced.Menus.Misc.MigrationEvents.RegisterEventHandlers();
+        }
+        catch (Exception ex)
+        {
+            Log.Error($"[Migration] Could not register migration events: {ex}");
+        }
+
         TeleportSync.RegisterEventHandlers();
         ClothingPresetSync.RegisterEventHandlers();
         VehicleExtraLabels.RegisterEventHandlers();
